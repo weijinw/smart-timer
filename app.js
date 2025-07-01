@@ -1,11 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     // MARK: - Data Models
     class TimerStep {
-        constructor(type, duration, hasVoiceAction, hasVibrationAction) {
+        constructor(type, duration, hasVoiceAction) {
             this.type = type; // "Work" or "Rest"
             this.duration = duration; // in seconds
             this.hasVoiceAction = hasVoiceAction;
-            this.hasVibrationAction = hasVibrationAction;
         }
     }
 
@@ -13,7 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
         constructor(name, steps, repeatCount = 1) {
             this.id = this.generateUUID();
             this.name = name;
-            this.steps = steps.map(s => new TimerStep(s.type, s.duration, s.hasVoiceAction, s.hasVibrationAction));
+            // Remove hasVibrationAction from mapping
+            this.steps = steps.map(s => new TimerStep(s.type, s.duration, s.hasVoiceAction));
             this.repeatCount = repeatCount;
         }
 
@@ -29,12 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let timerConfigurations = [];
     const presetTimerConfigurations = [
         new TimerConfiguration("Focus Study", [
-            new TimerStep("Work", 1500, true, true),
-            new TimerStep("Rest", 300, true, true)
+            new TimerStep("Work", 1500, true),
+            new TimerStep("Rest", 300, true)
         ], 3),
         new TimerConfiguration("HIIT", [
-            new TimerStep("Work", 30, true, true),
-            new TimerStep("Rest", 30, false, true)
+            new TimerStep("Work", 30, true),
+            new TimerStep("Rest", 30, false)
         ], 5)
     ];
 
@@ -51,8 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         play: `<svg class="icon-size" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`,
         remove: `<svg class="icon-size" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`,
         add: `<svg class="icon-size" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>`,
-        voice: `<svg class="icon-size" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C10.34 2 9 3.34 9 5v6c0 1.66 1.34 3 3 3s3-1.34 3-3V5c0-1.66-1.34-3-3-3zM21 12v1c0 3.87-3.13 7-7 7h-4c-3.87 0-7-3.13-7-7v-1h2v1c0 2.76 2.24 5 5 5h4c2.76 0 5-2.24 5-5v-1h2z"/></svg>`,
-        vibration: `<svg class="icon-size" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 4h10c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 2v12h10V6H7zM3 7h1v10H3zm17 0h1v10h-1z"/></svg>`
+        voice: `<svg class="icon-size" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C10.34 2 9 3.34 9 5v6c0 1.66 1.34 3 3 3s3-1.34 3-3V5c0-1.66-1.34-3-3-3zM21 12v1c0 3.87-3.13 7-7 7h-4c-3.87 0-7-3.13-7-7v-1h2v1c0 2.76 2.24 5 5 5h4c2.76 0 5-2.24 5-5v-1h2z"/></svg>`
     };
 
     let synth;
@@ -99,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
             timerConfigurations = parsedTimers.map(t => new TimerConfiguration(t.name, t.steps, t.repeatCount));
         } else {
             // If no saved timers, initialize with a default one
-            timerConfigurations = [new TimerConfiguration("Quick Break", [new TimerStep("Work", 60, true, true)], 1)];
+            timerConfigurations = [new TimerConfiguration("Quick Break", [new TimerStep("Work", 60, true)], 1)];
         }
     }
 
@@ -172,12 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleTimerCompletion() {
-        const currentStep = currentActiveTimerConfig.steps[currentStepIndex];
-        if (currentActiveTimerConfig && currentStep.hasVoiceAction) {
+        if (currentActiveTimerConfig && currentActiveTimerConfig.steps[currentStepIndex].hasVoiceAction) {
             playSound();
-        }
-        if (currentActiveTimerConfig && currentStep.hasVibrationAction && 'vibrate' in navigator) {
-            navigator.vibrate(200); // Vibrate for 200ms
         }
         currentStepIndex++;
         if (currentStepIndex < currentActiveTimerConfig.steps.length) {
@@ -258,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (configToLoad) {
                 editingTimerId = null;
                 newTimerNameInput.value = configToLoad.name;
-                currentCreatingSteps = configToLoad.steps.map(s => new TimerStep(s.type, s.duration, s.hasVoiceAction, s.hasVibrationAction));
+                currentCreatingSteps = configToLoad.steps.map(s => new TimerStep(s.type, s.duration, s.hasVoiceAction));
                 repeatTimesSelect.value = configToLoad.repeatCount;
                 createTimerConfirmButton.textContent = 'Submit';
             }
@@ -267,13 +262,13 @@ document.addEventListener('DOMContentLoaded', () => {
             configToLoad = timerConfigurations.find(c => c.id === configId);
             if (configToLoad) {
                 newTimerNameInput.value = configToLoad.name;
-                currentCreatingSteps = configToLoad.steps.map(s => new TimerStep(s.type, s.duration, s.hasVoiceAction, s.hasVibrationAction));
+                currentCreatingSteps = configToLoad.steps.map(s => new TimerStep(s.type, s.duration, s.hasVoiceAction));
                 repeatTimesSelect.value = configToLoad.repeatCount;
                 createTimerConfirmButton.textContent = 'Submit';
             }
         } else {
             editingTimerId = null;
-            currentCreatingSteps = [new TimerStep("Work", 60, true, true)];
+            currentCreatingSteps = [new TimerStep("Work", 60, true)];
             repeatTimesSelect.value = 1;
             createTimerConfirmButton.textContent = 'Submit';
         }
@@ -316,8 +311,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             listItem.innerHTML = `
                 <span class="item-index">${index + 1}</span>
-                <span class="item-name">${config.name} (Total: ${formatTime(totalDuration)}, W: ${formatTime(workTime)}, R: ${formatTime(restTime)}${repeatText})</span>
-                <div class="flex items-center gap-4">
+                <div class="item-name-block">
+                    <span class="item-name-main">${config.name}</span>
+                    <span class="item-name-desc">
+                        Total: ${formatTime(totalDuration)}, W: ${formatTime(workTime)}, R: ${formatTime(restTime)}${repeatText}
+                    </span>
+                </div>
+                <div class="flex items-center">
                     <button class="action-button start-button" aria-label="Start ${config.name}">${svgIcons.play}</button>
                     <button class="action-button remove-button" aria-label="Remove ${config.name}">${svgIcons.remove}</button>
                 </div>
@@ -351,8 +351,13 @@ document.addEventListener('DOMContentLoaded', () => {
             let repeatText = presetConfig.repeatCount > 1 ? `, Repeat: ${presetConfig.repeatCount}x` : '';
 
             listItem.innerHTML = `
-                <span class="item-name">${presetConfig.name} (Total: ${formatTime(totalDuration)}, W: ${formatTime(workTime)}, R: ${formatTime(restTime)}${repeatText})</span>
-                <div class="flex items-center gap-4">
+                <div class="item-name-block">
+                    <span class="item-name-main">${presetConfig.name}</span>
+                    <span class="item-name-desc">
+                        Total: ${formatTime(totalDuration)}, W: ${formatTime(workTime)}, R: ${formatTime(restTime)}${repeatText}
+                    </span>
+                </div>
+                <div class="flex items-center">
                     <button class="action-button start-button" aria-label="Start ${presetConfig.name}">${svgIcons.play}</button>
                     <button class="action-button add-preset-button" aria-label="Add ${presetConfig.name} to custom timers">${svgIcons.add}</button>
                 </div>
@@ -360,9 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
             listItem.querySelector('.start-button').addEventListener('click', (e) => { e.stopPropagation(); showTimerScreen(presetConfig.id, true); });
             listItem.querySelector('.add-preset-button').addEventListener('click', (e) => {
                 e.stopPropagation();
-                timerConfigurations.push(new TimerConfiguration(presetConfig.name, presetConfig.steps, presetConfig.repeatCount));
-                saveTimersToLocalStorage();
-                renderTimerConfigurations();
+                showCreateTimerScreen(presetConfig.id, true);
             });
             presetTimersList.appendChild(listItem);
         });
@@ -390,11 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select>
                 <label class="step-action-checkbox" title="Voice Alert">
                     <input type="checkbox" ${step.hasVoiceAction ? 'checked' : ''} data-action="voice">
-                    ${svgIcons.voice}
-                </label>
-                <label class="step-action-checkbox" title="Vibration Alert">
-                    <input type="checkbox" ${step.hasVibrationAction ? 'checked' : ''} data-action="vibration">
-                    ${svgIcons.vibration}
+                    Voice
                 </label>
                 <button class="remove-step-item-button" aria-label="Remove Step ${index + 1}">${svgIcons.remove}</button>
             `;
@@ -402,7 +401,6 @@ document.addEventListener('DOMContentLoaded', () => {
             stepItemDiv.querySelector('[data-step-property="type"]').addEventListener('change', (e) => { currentCreatingSteps[index].type = e.target.value; });
             stepItemDiv.querySelector('[data-step-property="duration"]').addEventListener('change', (e) => { currentCreatingSteps[index].duration = parseInt(e.target.value, 10); });
             stepItemDiv.querySelector('[data-action="voice"]').addEventListener('change', (e) => { currentCreatingSteps[index].hasVoiceAction = e.target.checked; });
-            stepItemDiv.querySelector('[data-action="vibration"]').addEventListener('change', (e) => { currentCreatingSteps[index].hasVibrationAction = e.target.checked; });
             const removeButton = stepItemDiv.querySelector('.remove-step-item-button');
             removeButton.addEventListener('click', () => {
                 if (currentCreatingSteps.length > 1) {
@@ -463,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     addStepButton.addEventListener('click', () => {
-        currentCreatingSteps.push(new TimerStep("Work", 60, true, true));
+        currentCreatingSteps.push(new TimerStep("Work", 60, true));
         renderCreateTimerSteps();
     });
 

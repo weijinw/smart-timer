@@ -1,10 +1,41 @@
+:root {
+    /* Color Palette */
+    --bg-main: #f0f2f5;
+    --bg-gradient-start: #e0e7ff;
+    --bg-gradient-end: #f0f2f5;
+    --text-dark: #333;
+    --text-medium: #4a5568;
+    --text-light: #6b7280;
+    --text-on-dark-bg: #ffffff;
+
+    /* Brand & Action Colors */
+    --color-primary: rgba(60, 179, 113, 0.5); /* Greenish */
+    --color-primary-hover: rgba(60, 179, 113, 0.7);
+    --color-secondary: rgba(65, 105, 225, 0.5); /* Blueish */
+    --color-secondary-hover: rgba(65, 105, 225, 0.7);
+    --color-danger: rgba(220, 53, 69, 0.3); /* Reddish */
+    --color-danger-hover: rgba(220, 53, 69, 0.5);
+
+    /* Sizing & Spacing */
+    --radius-lg: 25px;
+    --radius-md: 15px;
+    --padding-lg: 30px;
+    --padding-md: 20px;
+
+    /* Effects */
+    --glass-bg: rgba(255, 255, 255, 0.4);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+    --glass-blur: 10px;
+    --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
 /* Custom styles for the Inter font and overall body */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Light gray background */
+            background-color: var(--bg-main);
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Align to start for better scrolling on content-heavy pages */
             min-height: 100vh;
             margin: 0;
             padding: 20px;
@@ -14,16 +45,16 @@
         /* Container for the app, ensuring responsiveness */
         .config-container, .create-timer-container, .timer-screen-container {
             background-color: #ffffff; /* White background fallback */
-            background-image: linear-gradient(135deg, #e0e7ff 0%, #f0f2f5 100%); /* Subtle blue-gray gradient */
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* More prominent shadow */
-            border-radius: 25px; /* More rounded corners */
-            padding: 30px;
+            background-image: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-lg);
+            padding: var(--padding-lg);
             width: 100%;
             max-width: 800px; /* Max-width for home and create pages */
             display: flex;
             flex-direction: column;
             gap: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3); /* Soft, subtle border */
+            border: var(--glass-border);
         }
         .timer-screen-container {
             max-width: 500px; /* Specific max-width for timer screen */
@@ -43,19 +74,18 @@
 
         /* Individual list item styling */
         .config-item, .preset-item {
-            background-color: rgba(255, 255, 255, 0.4); /* Semi-transparent white for glass */
-            backdrop-filter: blur(10px); /* Frosted glass effect */
-            border-radius: 15px; /* Slightly more rounded */
+            background-color: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            border-radius: var(--radius-md);
             padding: 10px 15px;
             margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), /* Soft shadow */
-                        0 0 0 1px rgba(255, 255, 255, 0.2) inset; /* Inner light border */
+            box-shadow: var(--shadow-md);
             transition: transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
             display: flex;
             align-items: center;
             justify-content: space-between; /* Space out items */
             gap: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.3); /* White border for glass effect */
+            border: var(--glass-border);
         }
 
         .config-item:last-child, .preset-item:last-child {
@@ -64,14 +94,13 @@
 
         .config-item:hover, .preset-item:hover {
             transform: translateY(-3px); /* More pronounced lift on hover */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15),
-                        0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
         .item-index {
             font-size: 1.2rem;
             font-weight: 700;
-            color: #333; /* Darker text for readability */
+            color: var(--text-dark);
             min-width: 25px;
             text-align: center;
             flex-shrink: 0;
@@ -80,7 +109,7 @@
         .item-name {
             font-size: 1rem;
             font-weight: bold;
-            color: #4a5568;
+            color: var(--text-medium);
             white-space: nowrap; /* Prevent wrapping */
             overflow: hidden; /* Hide overflow text */
             text-overflow: ellipsis; /* Add ellipsis for overflow */
@@ -88,12 +117,32 @@
             margin-right: 15px; /* Space before buttons */
         }
 
+        .item-name-block {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            flex: 1 1 auto;
+        }
+        .item-name-main {
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .item-name-desc {
+            font-size: 1em;
+            color: var(--text-light);
+            margin-top: 2px;
+            white-space: normal;
+            word-break: break-word;
+        }
+
         /* Common button styles for action buttons (play, remove, add preset) */
         .action-button {
             background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
             backdrop-filter: blur(5px); /* Less blur for smaller buttons */
-            color: #4a5568; /* Darker text for contrast */
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: var(--text-medium);
+            border: var(--glass-border);
             border-radius: 9999px;
             width: 35px;
             height: 35px;
@@ -125,34 +174,33 @@
 
         /* Specific style for the Start button on the main list */
         .start-button {
-            background-color: rgba(60, 179, 113, 0.3); /* Greenish tint for main start button */
+            background-color: var(--color-primary);
             border-color: rgba(60, 179, 113, 0.4);
-            color: #ffffff;
+            color: var(--text-on-dark-bg);
             box-shadow: 0 2px 5px rgba(60, 179, 113, 0.2);
         }
 
         .start-button:hover {
-            background-color: rgba(60, 179, 113, 0.5);
+            background-color: var(--color-primary-hover);
             box-shadow: 0 3px 8px rgba(60, 179, 113, 0.3);
         }
 
         /* Specific style for the Remove button on the main list */
         .remove-button {
-            background-color: rgba(220, 53, 69, 0.3); /* Reddish tint for remove button */
+            background-color: var(--color-danger);
             border-color: rgba(220, 53, 69, 0.4);
-            color: #ffffff;
+            color: var(--text-on-dark-bg);
             box-shadow: 0 2px 5px rgba(220, 53, 69, 0.2);
-            margin-left: 10px; /* Add some margin to separate from start button */
         }
 
         .remove-button:hover {
-            background-color: rgba(220, 53, 69, 0.5);
+            background-color: var(--color-danger-hover);
             box-shadow: 0 3px 8px rgba(220, 53, 69, 0.3);
         }
 
         /* Specific style for the Add Preset button */
         .add-preset-button {
-            background-color: rgba(66, 153, 225, 0.3); /* Blueish tint for add preset button */
+            background-color: rgba(66, 153, 225, 0.3); /* Keeping this one custom for now */
             border-color: rgba(66, 153, 225, 0.4);
             color: #ffffff;
             box-shadow: 0 2px 5px rgba(66, 153, 225, 0.2);
@@ -168,7 +216,7 @@
         .timer-screen-title {
             font-size: 2.2rem;
             font-weight: bold;
-            color: #2c3e50;
+            color: var(--text-dark);
             margin-bottom: 10px;
             /* Ensure text wraps */
             white-space: normal;
@@ -193,38 +241,34 @@
 
         /* Primary control button (Start) - Green Glass - More Vibrant */
         .control-button {
-            background-color: rgba(60, 179, 113, 0.5); /* Increased opacity for vibrancy */
+            background-color: var(--color-primary);
             backdrop-filter: blur(12px); /* Slightly more blur */
             border: 1px solid rgba(255, 255, 255, 0.5); /* More prominent border */
-            color: #ffffff;
+            color: var(--text-on-dark-bg);
             border-radius: 9999px;
             padding: 15px 30px;
             font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s ease-in-out;
-            box-shadow: 0 10px 30px rgba(60, 179, 113, 0.4), /* Stronger shadow */
-                        0 0 0 2px rgba(255, 255, 255, 0.3) inset; /* Stronger inner highlight */
+            box-shadow: 0 10px 30px rgba(60, 179, 113, 0.4);
         }
 
         .control-button:hover {
-            background-color: rgba(60, 179, 113, 0.7); /* Even more opaque on hover */
+            background-color: var(--color-primary-hover);
             transform: translateY(-4px);
-            box-shadow: 0 15px 40px rgba(60, 179, 113, 0.5),
-                        0 0 0 3px rgba(255, 255, 255, 0.4) inset;
+            box-shadow: 0 15px 40px rgba(60, 179, 113, 0.5);
         }
 
         /* Secondary control button (Pause) - Blue Glass - More Vibrant */
         .control-button.secondary {
-            background-color: rgba(65, 105, 225, 0.5); /* Increased opacity for vibrancy */
-            box-shadow: 0 10px 30px rgba(65, 105, 225, 0.4), /* Stronger shadow */
-                        0 0 0 2px rgba(255, 255, 255, 0.3) inset;
+            background-color: var(--color-secondary);
+            box-shadow: 0 10px 30px rgba(65, 105, 225, 0.4);
         }
 
         .control-button.secondary:hover {
-            background-color: rgba(65, 105, 225, 0.7); /* Even more opaque on hover */
-            box-shadow: 0 15px 40px rgba(65, 105, 225, 0.5),
-                        0 0 0 3px rgba(255, 255, 255, 0.4) inset;
+            background-color: var(--color-secondary-hover);
+            box-shadow: 0 15px 40px rgba(65, 105, 225, 0.5);
         }
 
         /* Disabled state for all control buttons (consistent with previous, but adapted to new vibrancy) */
@@ -338,25 +382,14 @@
             margin-top: 20px;
         }
 
-        /* Styles for individual timer steps in create page */
-        .timer-steps-container {
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 15px;
-            padding: 15px;
-            background-color: rgba(255, 255, 255, 0.2);
-            max-height: 400px; /* Limit height for scrollability */
-            overflow-y: auto;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .dynamic-step-items-wrapper { /* New style for the wrapper */
-            padding-bottom: 15px; /* Space between steps and controls */
-        }
-
+        /* --- Timer Step Item Layout --- */
         .timer-step-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            flex-wrap: nowrap;
+            gap: 8px;
+            min-width: 0;
+            width: 100%;
             background-color: rgba(255, 255, 255, 0.6);
             border-radius: 10px;
             padding: 8px 12px;
@@ -376,6 +409,65 @@
             text-align: center;
         }
 
+        .step-label-select,
+        .step-duration-select {
+            flex: 1 1 110px;
+            min-width: 70px;
+            max-width: 160px;
+            height: 36px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            background-color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            color: #4a5568;
+            appearance: none;
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 1em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .remove-step-item-button {
+            flex-shrink: 0;
+            margin-left: auto; /* This pushes the remove button to the far right */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* Styles for individual timer steps in create page */
+        .timer-steps-container {
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.2);
+            max-height: 400px; /* Limit height for scrollability */
+            overflow-y: auto;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .dynamic-step-items-wrapper { /* New style for the wrapper */
+            padding-bottom: 15px; /* Space between steps and controls */
+        }
+
+        .step-index {
+            font-weight: bold;
+            color: #555;
+            min-width: 20px;
+            text-align: center;
+        }
+
         .step-label-select, .step-duration-select {
             padding: 6px 10px;
             border-radius: 8px;
@@ -384,45 +476,69 @@
             font-size: 0.9rem;
             color: #4a5568;
             appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="%23666"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>');
             background-repeat: no-repeat;
             background-position: right 8px center;
             background-size: 1em;
             cursor: pointer;
             flex-grow: 1; /* Allow these selects to grow */
-            min-width: 80px;
+            min-width: 70px;
+            height: 36px;
+            display: flex;
+            align-items: center;
         }
 
         .step-action-checkbox {
-            display: flex; /* Make label a flex container */
-            align-items: center; /* Vertically center its contents */
-            gap: 4px;
-            font-size: 0.85rem;
+            /* Using line-height and vertical-align for precise inline element alignment */
+            height: 36px; /* CRUCIAL: Match the height of the select boxes in the same row */
+            line-height: 36px; /* Vertically centers the text content */
+            font-size: 0.95rem;
             color: #555;
             white-space: nowrap;
+            user-select: none;
+            margin-bottom: 0 !important; /* Force no bottom margin */
         }
         .step-action-checkbox input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
-            border-radius: 3px;
-            border: 1px solid #a0aec0;
+            appearance: none;
+            width: 36px;
+            height: 20px;
+            background: #e5e7eb;
+            border-radius: 999px;
+            position: relative;
+            outline: none;
             cursor: pointer;
-            flex-shrink: 0;
+            transition: background 0.2s;
+            flex-shrink: 0; /* Prevent the toggle from shrinking */
+            margin: 0; /* Explicitly reset margin to prevent browser defaults from interfering with flex alignment */
+            vertical-align: middle; /* Align the checkbox with the middle of the text line */
+            margin-right: 8px; /* Space between checkbox and text */
         }
         .step-action-checkbox input[type="checkbox"]:checked {
-            background-color: #4299e1;
-            border-color: #4299e1;
+            background: #4ade80; /* iOS green */
         }
-        .step-action-checkbox svg {
-            width: 18px;
-            height: 18px;
+        .step-action-checkbox input[type="checkbox"]::before {
+            content: "";
+            position: absolute;
+            left: 2px;
+            top: 2px;
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .step-action-checkbox input[type="checkbox"]:checked::before {
+            transform: translateX(16px);
+        }
+        .step-action-checkbox span {
+            vertical-align: middle; /* Ensure the text also aligns to the middle */
         }
 
         .step-footer-controls { /* New style for the footer container */
             display: flex;
             justify-content: flex-end; /* Push content to the right */
             align-items: center; /* Vertically align items */
-            gap: 10px; /* Space between the plus button and repeat control */
+            gap: 0.25rem; /* Match the gap between run and action buttons */
             padding-top: 15px; /* Space from the dynamic steps above */
             border-top: 1px solid rgba(255, 255, 255, 0.4); /* Separator line */
             margin-top: 10px; /* Space from the last step item */
@@ -498,27 +614,69 @@
             cursor: not-allowed;
         }
 
+        .config-container {
+            min-height: 90vh;
+            max-width: 800px;
+            padding: 20px 20px 0 20px; /* Remove bottom padding */
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            justify-content: flex-start;
+        }
+
+        #timerConfigList {
+            flex: 1 1 auto;
+            overflow-y: auto;
+            max-height: none;
+            margin-bottom: 0;
+        }
+
+        .mt-auto {
+            margin-top: auto !important;
+            padding-bottom: 16px; /* Small bottom padding */
+        }
+
+        .preset-list {
+            margin-bottom: 0;
+        }
+
+        .config-item .flex.items-center,
+        .preset-item .flex.items-center {
+            gap: 0.25rem !important; /* Reduce gap between action buttons */
+        }
+
+        .config-item .item-name-block,
+        .preset-item .item-name-block {
+            margin-right: 0.25rem; /* Reduce space between name and buttons */
+        }
 
         /* Utility classes */
         .hidden {
             display: none !important;
         }
 
+        /* ==========================================================================
+           Responsive Styles
+           ========================================================================== */
 
-        /* Responsive adjustments */
+        /* --- Tablet and smaller (max-width: 768px) --- */
         @media (max-width: 768px) {
+            .config-container {
+                height: 100vh;
+                padding: 10px 5px 0 5px;
+            }
             .config-item, .preset-item {
-                flex-wrap: wrap;
-                gap: 10px;
+                flex-wrap: nowrap;
+                gap: 8px;
                 padding: 10px;
             }
             .item-name {
                 flex-grow: 1;
+                min-width: 0;
                 margin-right: 0;
-            }
-            .item-index {
-                font-size: 1rem;
-                min-width: 20px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             .action-button {
                 width: 30px;
@@ -547,7 +705,6 @@
                 padding: 8px 15px;
                 font-size: 0.9rem;
             }
-
             .done-message-box {
                 font-size: 2rem;
                 padding: 30px;
@@ -563,38 +720,28 @@
                 width: 100%;
             }
             .timer-step-item {
-                flex-wrap: wrap;
-                gap: 8px;
-                padding: 6px 10px;
+                flex-wrap: nowrap;
+                gap: 4px;
+                padding: 6px 4px;
             }
             .step-label-select, .step-duration-select {
-                flex-grow: unset; /* Don't let them grow too much on small screens */
-                width: calc(50% - 20px); /* Adjust width */
-                min-width: unset;
+                flex-grow: 1;
+                min-width: 40px;
+                max-width: 90px;
+                font-size: 0.9em;
+                height: 32px;
             }
             .step-action-checkbox {
-                flex-basis: 45%; /* Arrange checkboxes side by side */
-                justify-content: center;
-            }
-            .step-footer-controls {
-                /* On smaller screens, keep as row, align to end */
-                flex-direction: row;
-                justify-content: flex-end;
-                align-items: center;
-                gap: 10px;
-                width: 100%; /* Take full width on small screens */
-                margin-left: 0; /* Remove auto margin */
-            }
-            .step-footer-controls .action-button {
-                width: 32px; /* Match standard size */
-                height: 32px;
-                font-size: 1.2rem;
+                margin-left: 8px;
             }
             .remove-step-item-button {
                 width: 24px;
                 height: 24px;
+                margin-left: auto;
             }
         }
+
+        /* --- Mobile (max-width: 480px) --- */
         @media (max-width: 480px) {
              .config-container, .timer-screen-container, .create-timer-container {
                 padding: 15px;
@@ -610,12 +757,9 @@
                 flex-direction: column;
                 gap: 10px;
             }
-            .control-button {
+            .control-button, .back-button {
                 width: 100%;
                 padding: 12px;
-            }
-            .back-button {
-                width: 100%;
             }
             .done-message-box {
                 font-size: 1.5rem;

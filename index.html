@@ -17,17 +17,18 @@
         <ul id="timerConfigList" class="config-list">
             <!-- Timer configurations will be loaded here by JavaScript -->
         </ul>
-        <button id="addCustomTimerButton" class="control-button mt-4 w-full">Create Custom Timer</button>
+        <button id="addCustomTimerButton" class="control-button mt-4 w-full">Create</button>
 
-        <!-- New container for preset timers -->
-        <h2 class="text-2xl font-bold text-gray-700 text-center mt-8 mb-4">Preset Timers</h2>
-        <ul id="presetTimersList" class="preset-list">
-            <!-- Preset timer configurations will be loaded here by JavaScript -->
-        </ul>
+        <div class="mt-auto">
+            <h2 class="text-2xl font-bold text-gray-700 text-center mb-2">Preset Timers</h2>
+            <ul id="presetTimersList" class="preset-list">
+                <!-- Preset timer configurations will be loaded here by JavaScript -->
+            </ul>
+        </div>
     </div>
 
     <div id="createTimerScreen" class="hidden create-timer-container">
-        <h2 class="text-3xl font-bold text-gray-800 text-center">Create New Timer</h2>
+        <h2 class="text-3xl font-bold text-gray-800 text-center">Timer Configuration</h2>
         <div class="create-timer-form">
             <label for="newTimerName">Timer Name:</label>
             <input type="text" id="newTimerName" placeholder="e.g., Study Session" required>
