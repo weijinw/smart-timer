@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Timers</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tone.js CDN for sound generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="configListScreen" class="config-container">
+        <h1 class="text-3xl font-bold text-gray-800 text-center">Smart Timers</h1>
+        <ul id="timerConfigList" class="config-list">
+            <!-- Timer configurations will be loaded here by JavaScript -->
+        </ul>
+        <button id="addCustomTimerButton" class="control-button mt-4 w-full">Create Custom Timer</button>
+
+        <!-- New container for preset timers -->
+        <h2 class="text-2xl font-bold text-gray-700 text-center mt-8 mb-4">Preset Timers</h2>
+        <ul id="presetTimersList" class="preset-list">
+            <!-- Preset timer configurations will be loaded here by JavaScript -->
+        </ul>
+    </div>
+
+    <div id="createTimerScreen" class="hidden create-timer-container">
+        <h2 class="text-3xl font-bold text-gray-800 text-center">Create New Timer</h2>
+        <div class="create-timer-form">
+            <label for="newTimerName">Timer Name:</label>
+            <input type="text" id="newTimerName" placeholder="e.g., Study Session" required>
+            <!-- New UI Hint for Timer Name -->
+            <div id="timerNameHint" class="text-red-500 text-sm mt-1 hidden">Please enter a timer name.</div>
+
+
+            <h3 class="text-xl font-bold text-gray-700 mt-6 mb-3">Timer Steps:</h3>
+            <div id="timerStepsContainer" class="timer-steps-container">
+                <div id="dynamicStepItemsWrapper" class="dynamic-step-items-wrapper">
+                    <!-- Dynamic timer steps will be added here by JavaScript -->
+                </div>
+
+                <div id="stepConfigFooter" class="step-footer-controls">
+                    <button id="addStepButton" class="action-button">+</button>
+                    <!-- Repeat Times Select Menu -->
+                    <select id="repeatTimesSelect" class="rounded-lg border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                        <!-- Options will be populated by JS -->
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-buttons">
+                <button id="createTimerConfirmButton" class="control-button">Submit</button>
+                <button id="cancelCreateTimerButton" class="control-button secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="timerScreen" class="hidden timer-screen-container">
+        <h2 class="timer-screen-title" id="timerScreenTitle">Quick Break</h2>
+        <div class="timer-display" id="currentTimerDisplay">00:00</div>
+        <div class="timer-controls">
+            <button id="startButtonTimer" class="control-button">Start</button>
+            <button id="pauseButtonTimer" class="control-button secondary">Pause</button>
+        </div>
+        <button id="backButton" class="back-button">Back to Home</button>
+    </div>
+
+    <!-- Done Screen Overlay -->
+    <div id="doneScreen" class="done-screen-overlay">
+        <div class="done-message-box">Done!</div>
+    </div>
+
+    <!-- Application Script -->
+    <script src="app.js"></script>
+</body>
+</html>
