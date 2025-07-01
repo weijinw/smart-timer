@@ -213,14 +213,32 @@
 
 
         /* Timer Screen specific styles (remains mostly the same as last iteration, but vibrant) */
-        .timer-screen-title {
-            font-size: 2.2rem;
+        /* Base styles for the timer screen titles, for desktop */
+        .timer-title {
+            font-size: 2.5rem;
             font-weight: bold;
             color: var(--text-dark);
-            margin-bottom: 10px;
-            /* Ensure text wraps */
-            white-space: normal;
-            word-break: break-word;
+            margin-bottom: 0.2em;
+            text-align: center;
+            letter-spacing: 0.5px;
+            line-height: 1.1;
+        }
+
+        .timer-step-name {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-medium);
+            margin-bottom: 0.1em;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        .timer-step-info {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 0.5em;
+            text-align: center;
+            line-height: 1.1;
         }
 
         .timer-display {
@@ -615,9 +633,8 @@
         }
 
         .config-container {
-            min-height: 90vh;
             max-width: 800px;
-            padding: 20px 20px 0 20px; /* Remove bottom padding */
+            padding: 20px;
             display: flex;
             flex-direction: column;
             gap: 16px;
@@ -662,8 +679,7 @@
         /* --- Tablet and smaller (max-width: 768px) --- */
         @media (max-width: 768px) {
             .config-container {
-                height: 100vh;
-                padding: 10px 5px 0 5px;
+                padding: 10px 5px;
             }
             .config-item, .preset-item {
                 flex-wrap: nowrap;
@@ -691,9 +707,17 @@
                 padding: 20px;
                 border-radius: 15px;
             }
-            .timer-screen-title {
-                font-size: 1.8rem;
+            /* Adjust title font sizes for tablets */
+            .timer-title {
+                font-size: 2.2rem;
             }
+            .timer-step-name {
+                font-size: 1.2rem;
+            }
+            .timer-step-info {
+                font-size: 0.95rem;
+            }
+
             .timer-display {
                 font-size: 3.5rem;
             }
@@ -750,6 +774,16 @@
                  padding: 8px 10px;
                  gap: 8px;
              }
+            /* Adjust title font sizes for mobile */
+            .timer-title {
+                font-size: 1.8rem;
+            }
+            .timer-step-name {
+                font-size: 1.1rem;
+            }
+            .timer-step-info {
+                font-size: 0.9rem;
+            }
             .timer-display {
                 font-size: 3rem;
             }

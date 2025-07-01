@@ -84,6 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const createTimerConfirmButton = document.getElementById('createTimerConfirmButton');
     const cancelCreateTimerButton = document.getElementById('cancelCreateTimerButton');
     const presetTimersList = document.getElementById('presetTimersList');
+    const timerTitle = document.getElementById('timerTitle');
+    const timerStepName = document.getElementById('timerStepName');
+    const timerStepInfo = document.getElementById('timerStepInfo');
 
     // MARK: - Local Storage Functions
     function saveTimersToLocalStorage() {
@@ -131,15 +134,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentStep = currentActiveTimerConfig.steps[currentStepIndex];
             const totalSteps = currentActiveTimerConfig.steps.length;
             const totalRounds = currentActiveTimerConfig.repeatCount;
-            let titleHtml = `${currentActiveTimerConfig.name} - ${currentStep.type}`;
-            if (totalRounds > 1 || totalSteps > 1) {
-                titleHtml += '<br>';
-                let detailText = '';
-                if (totalRounds > 1) detailText += `Round ${currentRepeatRound}/${totalRounds}`;
-                if (totalSteps > 1) detailText += `${detailText ? ', ' : ''}Step ${currentStepIndex + 1}/${totalSteps}`;
-                titleHtml += detailText;
-            }
-            timerScreenTitle.innerHTML = titleHtml;
+
+            // Main timer name
+            timerTitle.textContent = currentActiveTimerConfig.name;
+
+            // Step name (e.g., "Work" or "Rest")
+            timerStepName.textContent = currentStep.type;
+
+            // Step and round info
+            let info = '';
+            if (totalSteps > 1) info += `Step ${currentStepIndex + 1} of ${totalSteps}`;
+            if (totalRounds > 1) info += `${info ? ', ' : ''}Round ${currentRepeatRound} of ${totalRounds}`;
+            timerStepInfo.textContent = info;
         }
     }
 
@@ -393,7 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select>
                 <label class="step-action-checkbox" title="Voice Alert">
                     <input type="checkbox" ${step.hasVoiceAction ? 'checked' : ''} data-action="voice">
-                    Voice
+                    <span>Voice</span>
                 </label>
                 <button class="remove-step-item-button" aria-label="Remove Step ${index + 1}">${svgIcons.remove}</button>
             `;
