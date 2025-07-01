@@ -172,8 +172,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleTimerCompletion() {
-        if (currentActiveTimerConfig && currentActiveTimerConfig.steps[currentStepIndex].hasVoiceAction) {
+        const currentStep = currentActiveTimerConfig.steps[currentStepIndex];
+        if (currentActiveTimerConfig && currentStep.hasVoiceAction) {
             playSound();
+        }
+        if (currentActiveTimerConfig && currentStep.hasVibrationAction && 'vibrate' in navigator) {
+            navigator.vibrate(200); // Vibrate for 200ms
         }
         currentStepIndex++;
         if (currentStepIndex < currentActiveTimerConfig.steps.length) {
