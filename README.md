@@ -1,4 +1,5 @@
 # Smart Timer
+(Build with AI)
 
 A versatile and customizable timer application designed to boost productivity and manage workout sessions, right in your browser. This tool allows you to create complex, multi-step timers that can be saved and reused, making it perfect for the Pomodoro technique, High-Intensity Interval Training (HIIT), or any other structured time-based activity.
 
